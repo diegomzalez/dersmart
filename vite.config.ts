@@ -37,5 +37,8 @@ export default defineConfig({
 				}
 			}
 		]
+	},
+	preview: {
+		allowedHosts: ["dersmart.com"]
 	}
 });
