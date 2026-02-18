@@ -42,7 +42,14 @@ export const actions = {
             // Determine mime type (basic check or default to jpeg)
             const mimeType = relativeUrl.endsWith('.png') ? 'image/png' : 'image/jpeg';
 
-            const diagnosisResult = await analyzeImage(fileBuffer, mimeType);
+            const diagnosisResult = await analyzeImage(fileBuffer, mimeType, {
+                patientId: image.patientId,
+                ageApprox: image.ageApprox,
+                sex: image.sex,
+                anatomSiteGeneral: image.anatomSiteGeneral,
+                clinSizeLongDiamMm: image.clinSizeLongDiamMm,
+                imageType: image.imageType
+            });
 
             await db.update(images)
                 .set({

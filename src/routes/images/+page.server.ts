@@ -15,8 +15,11 @@ export const actions = {
         const formData = await request.formData();
         const file = formData.get('file') as File;
         const patientId = formData.get('patientId') as string;
-        const bodySite = formData.get('bodySite') as string;
-        const modality = formData.get('modality') as string;
+        const ageApprox = formData.get('ageApprox') ? Number(formData.get('ageApprox')) : null;
+        const sex = formData.get('sex') as string || null;
+        const anatomSiteGeneral = formData.get('anatomSiteGeneral') as string;
+        const clinSizeLongDiamMm = formData.get('clinSizeLongDiamMm') ? Number(formData.get('clinSizeLongDiamMm')) : null;
+        const imageType = formData.get('imageType') as string;
 
         if (!file || file.size === 0) {
             return fail(400, { missing: true });
@@ -32,8 +35,11 @@ export const actions = {
             await db.insert(images).values({
                 url: `/uploads/${fileName}`,
                 patientId,
-                bodySite,
-                modality
+                ageApprox,
+                sex,
+                anatomSiteGeneral,
+                clinSizeLongDiamMm,
+                imageType
             });
 
             return { success: true };

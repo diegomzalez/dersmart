@@ -1,54 +1,133 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { localizeHref } from '$lib/paraglide/runtime';
+	import { building } from '$app/environment';
+	import { getLocale, localizeHref, deLocalizeHref } from '$lib/paraglide/runtime';
+	import * as m from '$lib/paraglide/messages';
+
+	const navLinks = [
+		{ href: '/', labelFn: () => m.nav_dashboard(), exact: true },
+		{ href: '/images', labelFn: () => m.nav_image_bank(), exact: false }
+	];
+
+	let canonicalPath = $derived(
+		deLocalizeHref(page.url.pathname + (building ? '' : page.url.search))
+	);
+	let currentLocale = $derived(getLocale());
+	let enHref = $derived(localizeHref(canonicalPath, { locale: 'en' }));
+	let esHref = $derived(localizeHref(canonicalPath, { locale: 'es' }));
 </script>
 
-<header class="bg-white shadow-sm">
-	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-		<div class="flex justify-between h-16">
-			<div class="flex">
-				<div class="flex-shrink-0 flex items-center">
-					<a href="{localizeHref('/')}" class="text-2xl font-bold text-indigo-600">DerSmart</a>
-				</div>
-				<div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-					<a
-						href="{localizeHref('/')}"
-						class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-						aria-current={page.url.pathname === '/' ? 'page' : undefined}
-					>
-						Dashboard
-					</a>
-					<a
-						href="{localizeHref('/images')}"
-						class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-						aria-current={page.url.pathname.startsWith('/images') ? 'page' : undefined}
-					>
-						Image Bank
-					</a>
-				</div>
-			</div>
-			<div class="hidden sm:ml-6 sm:flex sm:items-center">
-				<button
-					type="button"
-					class="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-				>
-					<span class="sr-only">View notifications</span>
+<header class="border-b border-slate-800 bg-slate-900 shadow-lg">
+	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+		<div class="flex h-16 items-center justify-between">
+			<!-- Logo -->
+			<div class="flex items-center gap-3">
+				<div class="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-500 shadow-md">
 					<svg
-						class="h-6 w-6"
-						xmlns="http://www.w3.org/2000/svg"
+						class="h-5 w-5 text-white"
 						fill="none"
 						viewBox="0 0 24 24"
 						stroke="currentColor"
-						aria-hidden="true"
+						stroke-width="2"
+					>
+						<circle cx="11" cy="11" r="5" />
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M11 8v3l2 2m5.657 2.343l-2.829-2.829M21 21l-4-4"
+						/>
+					</svg>
+				</div>
+				<div class="flex items-center gap-2">
+					<a href={localizeHref('/')} class="text-xl font-bold tracking-tight text-white">
+						Der<span class="text-teal-400">Smart</span>
+					</a>
+					<span
+						class="hidden rounded border border-slate-700 px-1.5 py-0.5 text-[10px] font-medium tracking-wider text-slate-500 uppercase sm:block"
+					>
+						AI
+					</span>
+				</div>
+			</div>
+
+			<!-- Nav -->
+			<nav class="flex items-center gap-1">
+				{#each navLinks as link}
+					{@const isActive = link.exact
+						? page.url.pathname === '/' ||
+							page.url.pathname === '/es' ||
+							page.url.pathname === '/es/'
+						: page.url.pathname.includes('/images')}
+					<a
+						href={localizeHref(link.href)}
+						class="relative rounded-md px-4 py-2 text-sm font-medium transition-all duration-150
+							{isActive ? 'bg-slate-800 text-teal-400' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}"
+					>
+						{link.labelFn()}
+						{#if isActive}
+							<span class="absolute right-3 bottom-0 left-3 h-[2px] rounded-full bg-teal-500"
+							></span>
+						{/if}
+					</a>
+				{/each}
+			</nav>
+
+			<!-- Right: locale switcher + status + avatar -->
+			<div class="flex items-center gap-3">
+				<!-- Language switcher -->
+				<div
+					class="flex items-center overflow-hidden rounded-lg border border-slate-700 text-xs font-semibold"
+				>
+					<a
+						href={enHref}
+						class="px-2.5 py-1.5 transition-colors duration-100
+							{currentLocale === 'en'
+							? 'bg-teal-600 text-white'
+							: 'text-slate-400 hover:bg-slate-800 hover:text-white'}"
+					>
+						EN
+					</a>
+					<span class="h-4 w-px bg-slate-700"></span>
+					<a
+						href={esHref}
+						class="px-2.5 py-1.5 transition-colors duration-100
+							{currentLocale === 'es'
+							? 'bg-teal-600 text-white'
+							: 'text-slate-400 hover:bg-slate-800 hover:text-white'}"
+					>
+						ES
+					</a>
+				</div>
+
+				<!-- Online indicator -->
+				<div class="hidden items-center gap-1.5 text-xs text-slate-500 sm:flex">
+					<span class="relative flex h-2 w-2">
+						<span
+							class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
+						></span>
+						<span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+					</span>
+					{m.nav_online()}
+				</div>
+
+				<!-- Doctor avatar -->
+				<div
+					class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-700 ring-2 ring-slate-600"
+				>
+					<svg
+						class="h-4 w-4 text-slate-300"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						stroke-width="2"
 					>
 						<path
 							stroke-linecap="round"
 							stroke-linejoin="round"
-							stroke-width="2"
-							d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+							d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
 						/>
 					</svg>
-				</button>
+				</div>
 			</div>
 		</div>
 	</div>
