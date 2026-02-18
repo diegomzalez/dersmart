@@ -5,6 +5,9 @@
 	"nav_image_bank": "Banco de Imágenes",
 	"nav_online": "En línea",
 
+	"dashboard_demo_badge": "App de Demo",
+	"dashboard_demo_title": "DerSmart — Aplicación Demo",
+	"dashboard_demo_desc": "Esta es una demostración de DerSmart, una plataforma de análisis dermatológico asistido por IA. Los datos y diagnósticos mostrados aquí son solo ilustrativos y no deben usarse para decisiones clínicas reales.",
 	"dashboard_greeting": "Buenos días, Doctor",
 	"dashboard_subtitle": "Análisis dermatológico asistido por IA · Flujo de trabajo estándar ISIC",
 	"dashboard_image_bank_label": "Banco de Imágenes",
@@ -17,7 +20,7 @@
 	"dashboard_isic_archive": "Archivo ISIC",
 	"dashboard_isic_archive_desc": "Colaboración Internacional de Imágenes de Piel.",
 	"dashboard_isic_aligned": "Alineado con ISIC 2024.",
-	"dashboard_isic_note": "Esta plataforma utiliza el esquema de metadatos estándar ISIC — sitio anatómico, diámetro de la lesión, tipo de imagen — y clasifica las lesiones usando la taxonomía de diagnóstico ISIC con Gemini 2.0 Flash.",
+	"dashboard_isic_note": "Esta plataforma utiliza el esquema de metadatos estándar ISIC — sitio anatómico, diámetro de la lesión, tipo de imagen — y clasifica las lesiones usando la taxonomía de diagnóstico ISIC con Gemini Pro 3.",
 	"hello_world": "Hola {name}!",
 
 	"images_title": "Banco de Imágenes",
@@ -59,7 +62,7 @@
 	"diagnosis_lesion_id": "ID de Lesión",
 	"diagnosis_status_pending": "Pendiente",
 	"diagnosis_status_completed": "Diagnosticado",
-	"diagnosis_ai_label": "Análisis IA · Gemini 2.0 Flash",
+	"diagnosis_ai_label": "Análisis IA · Gemini Pro 3",
 	"diagnosis_primary": "Diagnóstico Principal",
 	"diagnosis_risk": "Nivel de Riesgo",
 	"diagnosis_confidence": "Confianza",
@@ -75,5 +78,6 @@
 	"diagnosis_reasoning": "Razonamiento Clínico",
 	"diagnosis_differentials": "Diagnósticos Diferenciales",
 	"diagnosis_also_consider": "También considerar",
-	"diagnosis_image_type_note": "Nota sobre la modalidad de imagen"
+	"diagnosis_image_type_note": "Nota sobre la modalidad de imagen",
+	"diagnosis_detailed_analysis": "Análisis Detallado"
 }

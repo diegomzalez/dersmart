@@ -5,6 +5,7 @@ import { fail, type RequestEvent } from '@sveltejs/kit';
 import { analyzeImage } from '$lib/server/ai';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { getLocale } from '$lib/paraglide/runtime';
 
 export const load = async ({ params }: RequestEvent) => {
     const imageId = params.id;
@@ -49,7 +50,7 @@ export const actions = {
                 anatomSiteGeneral: image.anatomSiteGeneral,
                 clinSizeLongDiamMm: image.clinSizeLongDiamMm,
                 imageType: image.imageType
-            });
+            }, getLocale());
 
             await db.update(images)
                 .set({

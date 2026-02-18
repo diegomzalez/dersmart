@@ -7,8 +7,19 @@
 	<title>DerSmart — {m.nav_dashboard()}</title>
 </svelte:head>
 
+<!-- Demo banner -->
+<div class="mb-6 rounded-xl border border-amber-200 bg-amber-50 px-6 py-5 animate-fade-up">
+	<div class="flex items-center gap-2 mb-2">
+		<span class="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-700 uppercase tracking-wider border border-amber-300">
+			{m.dashboard_demo_badge()}
+		</span>
+	</div>
+	<h2 class="text-lg font-bold text-amber-900">{m.dashboard_demo_title()}</h2>
+	<p class="mt-1 text-sm text-amber-800">{m.dashboard_demo_desc()}</p>
+</div>
+
 <!-- Welcome banner -->
-<div class="mb-8 animate-fade-up">
+<div class="mb-8 animate-fade-up" style="animation-delay:0.03s">
 	<h1 class="text-2xl font-bold text-slate-800">{m.dashboard_greeting()}</h1>
 	<p class="mt-1 text-sm text-slate-500">{m.dashboard_subtitle()}</p>
 </div>

@@ -133,7 +133,8 @@ function buildRiskSignals(metadata: ImageMetadata): string {
 export const analyzeImage = async (
 	imageBuffer: Buffer,
 	mimeType: string,
-	metadata?: ImageMetadata
+	metadata?: ImageMetadata,
+	locale?: string
 ) => {
 	try {
 		const clinicalContext: string[] = [];
@@ -164,7 +165,7 @@ Return:
 - recommendation: specific clinical action for the treating physician
 - reasoning: concise clinical rationale referencing visual features and metadata
 - differentials: exactly 2 alternative diagnoses with their individual confidence scores
-- imageTypeNote: note about how image modality affects diagnostic certainty (required for TBP tiles; omit or leave empty for dermoscopic)${contextBlock}${riskSignals}${imageTypeGuidance}`;
+- imageTypeNote: note about how image modality affects diagnostic certainty (required for TBP tiles; omit or leave empty for dermoscopic)${contextBlock}${riskSignals}${imageTypeGuidance}${locale && locale !== 'en' ? `\n\nIMPORTANT — LANGUAGE: Write the "recommendation", "reasoning", and "imageTypeNote" fields in Spanish. The "diagnosis", "riskLevel", and differential diagnosis labels must remain in English (they are enum values).` : ''}`;
 
 		const result = await model.generateContent([
 			prompt,

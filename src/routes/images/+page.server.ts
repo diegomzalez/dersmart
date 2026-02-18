@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
 import { images } from '$lib/server/db/schema';
 import { fail } from '@sveltejs/kit';
-import { writeFile } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
 
@@ -30,6 +30,7 @@ export const actions = {
         const uploadPath = join(process.cwd(), 'static', 'uploads', fileName);
 
         try {
+            await mkdir(join(process.cwd(), 'static', 'uploads'), { recursive: true });
             await writeFile(uploadPath, Buffer.from(buffer));
 
             await db.insert(images).values({

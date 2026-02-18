@@ -5,6 +5,9 @@
 	"nav_image_bank": "Image Bank",
 	"nav_online": "Online",
 
+	"dashboard_demo_badge": "Demo App",
+	"dashboard_demo_title": "DerSmart — Demo Application",
+	"dashboard_demo_desc": "This is a demonstration of DerSmart, an AI-assisted dermatological analysis platform. Data and diagnoses shown here are for illustrative purposes only and should not be used for real clinical decisions.",
 	"dashboard_greeting": "Good morning, Doctor",
 	"dashboard_subtitle": "AI-assisted dermatological analysis · ISIC-standard workflow",
 	"dashboard_image_bank_label": "Image Bank",
@@ -17,7 +20,7 @@
 	"dashboard_isic_archive": "ISIC Archive",
 	"dashboard_isic_archive_desc": "International Skin Imaging Collaboration.",
 	"dashboard_isic_aligned": "ISIC 2024 aligned.",
-	"dashboard_isic_note": "This platform uses the ISIC standard metadata schema — anatomical site, lesion diameter, image type — and classifies lesions using the ISIC diagnosis taxonomy via Gemini 2.0 Flash.",
+	"dashboard_isic_note": "This platform uses the ISIC standard metadata schema — anatomical site, lesion diameter, image type — and classifies lesions using the ISIC diagnosis taxonomy via Gemini Pro 3.",
 	"hello_world": "Hello {name}!",
 
 	"images_title": "Image Bank",
@@ -59,7 +62,7 @@
 	"diagnosis_lesion_id": "Lesion ID",
 	"diagnosis_status_pending": "Pending",
 	"diagnosis_status_completed": "Diagnosed",
-	"diagnosis_ai_label": "AI Analysis · Gemini 2.0 Flash",
+	"diagnosis_ai_label": "AI Analysis · Gemini Pro 3",
 	"diagnosis_primary": "Primary Diagnosis",
 	"diagnosis_risk": "Risk Level",
 	"diagnosis_confidence": "Confidence",
@@ -75,5 +78,6 @@
 	"diagnosis_reasoning": "Clinical Reasoning",
 	"diagnosis_differentials": "Differential Diagnoses",
 	"diagnosis_also_consider": "Also consider",
-	"diagnosis_image_type_note": "Image modality note"
+	"diagnosis_image_type_note": "Image modality note",
+	"diagnosis_detailed_analysis": "Detailed Analysis"
 }

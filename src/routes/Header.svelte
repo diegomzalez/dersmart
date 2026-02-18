@@ -63,13 +63,13 @@
 
 				<!-- Language switcher -->
 				<div class="flex items-center rounded-lg overflow-hidden border border-slate-700 text-xs font-semibold">
-					<a href={enHref}
+					<a href={enHref} data-sveltekit-reload
 						class="px-2.5 py-1.5 transition-colors duration-100
 							{currentLocale === 'en' ? 'bg-teal-600 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800'}">
 						EN
 					</a>
 					<span class="w-px h-4 bg-slate-700"></span>
-					<a href={esHref}
+					<a href={esHref} data-sveltekit-reload
 						class="px-2.5 py-1.5 transition-colors duration-100
 							{currentLocale === 'es' ? 'bg-teal-600 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800'}">
 						ES
