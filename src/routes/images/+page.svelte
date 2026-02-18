@@ -9,6 +9,27 @@
 	let uploading = $state(false);
 	let fileName = $state('');
 	let showUpload = $state(false);
+	let searchQuery = $state('');
+
+	let filteredImages = $derived(
+		data.images.filter((img) => {
+			const query = searchQuery.toLowerCase();
+			if (!query) return true;
+
+			const patientMatch = img.patientId?.toLowerCase().includes(query);
+			const siteMatch = img.anatomSiteGeneral?.toLowerCase().includes(query);
+			const typeMatch = img.imageType?.toLowerCase().includes(query);
+			const sexMatch = img.sex?.toLowerCase().includes(query);
+
+			let diagnosisMatch = false;
+			const diagnosis = safeParseAiDiagnosis(img.aiDiagnosis);
+			if (diagnosis && diagnosis.primary_diagnosis) {
+				diagnosisMatch = diagnosis.primary_diagnosis.toLowerCase().includes(query);
+			}
+
+			return patientMatch || siteMatch || typeMatch || sexMatch || diagnosisMatch;
+		})
+	);
 
 	const anatomSites = [
 		'anterior torso',
@@ -86,6 +107,33 @@
 			</svg>
 			{showUpload ? m.images_cancel() : m.images_new_case()}
 		</button>
+	</div>
+</div>
+
+<!-- Search Bar -->
+<div class="mb-6 animate-fade-up">
+	<div class="relative max-w-md">
+		<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+			<svg
+				class="h-4 w-4 text-slate-400"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+				stroke-width="2"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+				/>
+			</svg>
+		</div>
+		<input
+			type="text"
+			bind:value={searchQuery}
+			placeholder={m.images_search_placeholder()}
+			class="block w-full rounded-lg border-slate-300 bg-white py-2 pl-10 pr-3 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-teal-500 focus:ring-teal-500 transition-colors duration-150"
+		/>
 	</div>
 </div>
 
@@ -326,36 +374,52 @@
 {/if}
 
 <!-- Gallery grid -->
-{#if data.images.length === 0}
-	<div
-		class="animate-fade-up flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-white py-20 text-center"
-	>
-		<svg
-			class="mb-3 h-12 w-12 text-slate-300"
-			fill="none"
-			viewBox="0 0 24 24"
-			stroke="currentColor"
-			stroke-width="1.5"
+{#if filteredImages.length === 0}
+	{#if searchQuery}
+		<div class="animate-fade-up flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 py-16 text-center">
+			<div class="mb-3 rounded-full bg-slate-100 p-3 ring-1 ring-slate-200">
+				<svg class="h-6 w-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+				</svg>
+			</div>
+			<h3 class="mt-2 text-sm font-medium text-slate-900">No results found</h3>
+			<p class="mt-1 text-sm text-slate-500">
+				No images match "{searchQuery}".
+			</p>
+		</div>
+	{:else}
+		<div
+			class="animate-fade-up flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-white py-20 text-center"
 		>
-			<path
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-			/>
-		</svg>
-		<p class="font-medium text-slate-500">{m.images_no_cases()}</p>
-		<p class="mt-1 text-sm text-slate-400">
-			{m.images_no_cases_hint()}
-			<span class="font-medium text-teal-600">{m.images_new_case()}</span>
-			{m.images_no_cases_hint2()}
-		</p>
-	</div>
+			<svg
+				class="mb-3 h-12 w-12 text-slate-300"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+				stroke-width="1.5"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+				/>
+			</svg>
+			<p class="font-medium text-slate-500">{m.images_no_cases()}</p>
+			<p class="mt-1 text-sm text-slate-400">
+				{m.images_no_cases_hint()}
+				<button onclick={() => (showUpload = true)} class="font-medium text-teal-600 hover:text-teal-500 hover:underline">
+					{m.images_new_case()}
+				</button>
+				{m.images_no_cases_hint2()}
+			</p>
+		</div>
+	{/if}
 {:else}
 	<div
 		class="animate-fade-up grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
 		style="animation-delay:0.05s"
 	>
-		{#each data.images as image}
+		{#each filteredImages as image}
 			{@const d = safeParseAiDiagnosis(image.aiDiagnosis)}
 			<a
 				href={localizeHref(`/diagnosis/${image.id}`)}

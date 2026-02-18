@@ -47,6 +47,7 @@
 	"images_no_cases_hint": "Haz clic en",
 	"images_no_cases_hint2": "para subir la primera imagen.",
 	"images_status_pending": "Pendiente",
+	"images_search_placeholder": "Buscar por paciente, sitio, diagnóstico...",
 
 	"diagnosis_back": "Volver al Banco de Imágenes",
 	"diagnosis_patient_label": "Paciente",
