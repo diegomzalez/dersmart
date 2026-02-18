@@ -30,4 +30,5 @@ project.inlang/cache/
 *.db
 
 # Uploaded Images
+data/uploads
 static/uploads

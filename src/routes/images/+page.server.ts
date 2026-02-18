@@ -27,10 +27,11 @@ export const actions = {
 
         const buffer = await file.arrayBuffer();
         const fileName = `${randomUUID()}-${file.name}`;
-        const uploadPath = join(process.cwd(), 'static', 'uploads', fileName);
+        const uploadsDir = join(process.cwd(), 'data', 'uploads');
+        const uploadPath = join(uploadsDir, fileName);
 
         try {
-            await mkdir(join(process.cwd(), 'static', 'uploads'), { recursive: true });
+            await mkdir(uploadsDir, { recursive: true });
             await writeFile(uploadPath, Buffer.from(buffer));
 
             await db.insert(images).values({

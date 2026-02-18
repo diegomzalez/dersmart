@@ -30,14 +30,9 @@ export const actions = {
 
         // Real AI Analysis
         try {
-            // Read file from disk
-            // Note: In a production app, we might want to store this in S3/Blob storage
-            // For this demo, we read from the local static uploads folder
             const relativeUrl = image.url; // e.g., /uploads/filename.jpg
-            // Remove leading slash if present for path joining
-            const cleanUrl = relativeUrl.startsWith('/') ? relativeUrl.slice(1) : relativeUrl;
-
-            const filePath = join(process.cwd(), 'static', cleanUrl);
+            const fileName = relativeUrl.split('/').pop()!;
+            const filePath = join(process.cwd(), 'data', 'uploads', fileName);
             const fileBuffer = await readFile(filePath);
 
             // Determine mime type (basic check or default to jpeg)
